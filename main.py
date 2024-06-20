@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 load_dotenv(".env")
 
@@ -8,8 +10,8 @@ from discord import app_commands
 from Cogs.greetings import Greetings
 from Cogs.admin import AdminCommands
 from Cogs.replies import Replies
-
-import os
+from Cogs.minecraft import Minecraft
+from Cogs.horny import Horny
 
 class Bot(commands.Bot):
 	def __init__(self):
@@ -26,9 +28,11 @@ class Bot(commands.Bot):
 		)
 
 	async def setup_hook(self):
+		await self.add_cog(Minecraft(self))
 		await self.add_cog(Greetings(self))
 		await self.add_cog(AdminCommands(self))
 		await self.add_cog(Replies(self))
+		await self.add_cog(Horny(self))
 
 	async def on_ready(self):
 		print(f'We have logged in as {bot.user}')
