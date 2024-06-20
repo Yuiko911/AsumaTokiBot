@@ -1,8 +1,12 @@
+# Folders
 __pycache__
 bin
 include
 lib
 lib64
+
+# Files
 discord.log
 pyvenv.cfg
-secret.py
+.env
+main.py.back
