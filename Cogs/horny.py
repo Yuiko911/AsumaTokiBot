@@ -19,8 +19,7 @@ class Horny(commands.Cog):
 
 		if "all" in [arg1, arg2]:
 			whichtoki = "+toki_(blue_archive)"
-			
-		if "normal" in [arg1, arg2]:
+		else if "normal" in [arg1, arg2]:
 			whichtoki = "+toki_(blue_archive)+-toki_(bunny)_(blue_archive)"
 		
 		apireq += whichtoki + rating
