@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import os, requests
+import os, requests, datetime
 
 class Horny(commands.Cog):
 	def __init__(self, bot):
@@ -9,6 +9,7 @@ class Horny(commands.Cog):
 	@commands.command()
 	@commands.is_nsfw()
 	async def horny(self, ctx: commands.Context, arg1: str = "", arg2: str = ""):
+
 		apireq = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1&tags=sort:random"
 
 		whichtoki = "+toki_(bunny)_(blue_archive)"
@@ -19,11 +20,18 @@ class Horny(commands.Cog):
 
 		if "all" in [arg1, arg2]:
 			whichtoki = "+toki_(blue_archive)"
-		else if "normal" in [arg1, arg2]:
+		elif "normal" in [arg1, arg2]:
 			whichtoki = "+toki_(blue_archive)+-toki_(bunny)_(blue_archive)"
 		
-		apireq += whichtoki + rating
+		if datetime.datetime.today().month == 11:
+			# NNN protection
+			embed_title = "🙏"
+			whichtoki = "+jesus"
+			rating = "+-rating:explicit"
+		else:
+			embed_title = "Toki H"
 
+		apireq += whichtoki + rating
 		response = requests.get(apireq)
 
 		source_url = response.json()['post'][0].get('source')
@@ -34,7 +42,7 @@ class Horny(commands.Cog):
 			pass
 
 		embed = discord.Embed(
-			title="Toki H",
+			title=embed_title,
 			url=source_url,
 			description=tags,
 			colour=discord.Colour.blue()
