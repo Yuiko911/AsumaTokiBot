@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import os
+import os, subprocess
 
 def is_in_mc_channel(ctx: commands.Context):
 	return ctx.channel.id == int(os.getenv('MINECRAFT_CHANNEL_ID'))
@@ -13,7 +13,15 @@ class Minecraft(commands.Cog):
 	@commands.has_role(int(os.getenv('GDD_ROLE_ID')))
 	@commands.check(is_in_mc_channel)
 	async def mcstatus(self, ctx: commands.Context):
-		await ctx.reply("status of the mc server (running, nb of ppl)")
+		status = subprocess.run(["systemctl", "is-active", "--quiet", "minecraft"])
+		statusreply = ""
+
+		if status.returncode == 0:
+			statusreply = "Server is running !"
+		else:
+			statusreply = "Server is not running :("
+
+		await ctx.reply(statusreply)
 
 	@commands.command()
 	@commands.has_role(int(os.getenv('GDD_ROLE_ID')))
